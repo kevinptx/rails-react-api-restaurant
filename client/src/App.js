@@ -31,6 +31,7 @@ class App extends Component {
   };
 
   updateMenu = (id, menu) => {
+    //the id coming in as an argument is an object containing id, so we're calling id.id to get to the id. the menu at this point is an object containing name.
     axios.put(`/api/menus/${id.id}`, menu).then(res => {
       const menus = this.state.menus.map(m => {
         if (m.id === id) return res.data;
@@ -56,11 +57,11 @@ class App extends Component {
         </Button>
         New Menu
         {showForm ? <MenuForm addMenu={this.addMenu} /> : null}
-        <Menus
+        {/* <Menus
           menus={this.state.menus}
           updateMenu={this.updateMenu}
           deleteMenu={this.deleteMenu}
-        />
+        /> */}
       </Container>
     );
   }
