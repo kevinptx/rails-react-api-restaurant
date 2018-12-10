@@ -1,9 +1,9 @@
 class Api::MenusController < ApplicationController
-  before_action :set_menu, only: [:update, :destroy]
+  before_action :set_menu, only: [:destroy]
 
   #GET
   def index
-    render json: Menu.order(:name)
+    render json: Menu.all
   end
 
   #POST
@@ -12,7 +12,7 @@ class Api::MenusController < ApplicationController
     if menu.save
       render json: menu
     else
-      render json: {errors: menu.errors}
+      render json: {errors: menu.errors}, status: :unprocessable_entity
     end
   end
 
@@ -25,7 +25,7 @@ class Api::MenusController < ApplicationController
   #DELETE
   def destroy
     @menu.destroy
-    render json: {message: "Menudeleted"}
+    render json: {message: "Menu Deleted"}
   end
 
   private

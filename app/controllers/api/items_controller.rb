@@ -1,24 +1,25 @@
 class Api::ItemsController < ApplicationController
-  before_action :set_item, only: [:update, :destroy]
+  before_action :set_menu, only: [:index, :create]
+  before_action :set_item, only: [ :destroy]
 
   #GET
   def index
-    render json: Item.order(:name)
+    render json: @menu.items.all
   end
 
   #POST
   def create
-    item = Item.new(item_params)
+    item = @menu.items.new(item_params)
     if item.save
       render json: item
     else
-      render json: {errors: item.errors}
+      render json: {errors: item.errors}, status: :unprocessable_entity
     end
   end
 
   #PUT/PATCH
   def update
-    @item.update
+    @item.update(item_params)
     render json: @item
   end
 
@@ -36,5 +37,9 @@ class Api::ItemsController < ApplicationController
 
   def set_item
     @item = Item.find(params[:id])
+  end
+
+  def set_menu
+    @menu = Menu.find(params[:menu_id])
   end
 end
